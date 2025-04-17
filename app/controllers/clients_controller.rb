@@ -1,5 +1,5 @@
 class ClientsController < ApplicationController
-  before_action :set_client, only: [:show, :edit, :update, :destroy]
+  before_action :set_client, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @clients = Client.all.order(created_at: :desc)
@@ -44,7 +44,7 @@ class ClientsController < ApplicationController
 
   def destroy
     @client.destroy
-    
+
     respond_to do |format|
       format.html { redirect_to clients_path, notice: "Client was successfully deleted." }
       format.turbo_stream

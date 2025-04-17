@@ -4,8 +4,8 @@ def public_show
   @attachments = @project.attachments.order(created_at: :desc)
   @new_requirement = @project.requirements.build
   @new_attachment = @project.attachments.build
-  
-  render layout: 'public'
+
+  render layout: "public"
 end
 
 def public_update
@@ -18,13 +18,13 @@ def public_update
     @attachments = @project.attachments.order(created_at: :desc)
     @new_requirement = @project.requirements.build
     @new_attachment = @project.attachments.build
-    
-    render :public_show, layout: 'public', status: :unprocessable_entity
+
+    render :public_show, layout: "public", status: :unprocessable_entity
   end
 end
 
 private
 
 def project_public_params
-  params.require(:project).permit(:notes, requirements_attributes: [:id, :title, :description, :priority, :category, :must_have, :acceptance_criteria, :_destroy])
+  params.require(:project).permit(:notes, requirements_attributes: [ :id, :title, :description, :priority, :category, :must_have, :acceptance_criteria, :_destroy ])
 end

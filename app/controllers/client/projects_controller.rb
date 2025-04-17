@@ -1,6 +1,6 @@
 class Client::ProjectsController < ApplicationController
   before_action :require_client!
-  before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :set_project, only: [ :show, :edit, :update, :destroy ]
   before_action :set_client
 
   def index
@@ -20,7 +20,7 @@ class Client::ProjectsController < ApplicationController
     @project.status = :draft
 
     if @project.save
-      redirect_to client_project_path(@project), notice: 'Project was successfully created.'
+      redirect_to client_project_path(@project), notice: "Project was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -31,7 +31,7 @@ class Client::ProjectsController < ApplicationController
 
   def update
     if @project.update(project_params)
-      redirect_to client_project_path(@project), notice: 'Project was successfully updated.'
+      redirect_to client_project_path(@project), notice: "Project was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -39,7 +39,7 @@ class Client::ProjectsController < ApplicationController
 
   def destroy
     @project.destroy
-    redirect_to client_projects_path, notice: 'Project was successfully deleted.'
+    redirect_to client_projects_path, notice: "Project was successfully deleted."
   end
 
   private
@@ -50,7 +50,7 @@ class Client::ProjectsController < ApplicationController
 
   def set_client
     @client = current_user.client
-    redirect_to root_path, alert: 'Client not found' unless @client
+    redirect_to root_path, alert: "Client not found" unless @client
   end
 
   def project_params
@@ -71,4 +71,4 @@ class Client::ProjectsController < ApplicationController
       ]
     )
   end
-end 
+end

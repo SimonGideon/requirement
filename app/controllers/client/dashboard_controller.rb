@@ -12,6 +12,6 @@ class Client::DashboardController < ApplicationController
 
   def set_client
     @client = current_user.client
-    redirect_to root_path, alert: 'Client not found' unless @client
+    redirect_to root_path, alert: "Client not found" unless @client
   end
-end 
+end

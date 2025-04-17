@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :rememberable, :validatable,
-         authentication_keys: [:business_name]
+         authentication_keys: [ :business_name ]
 
   enum :role, { client: 0, admin: 1 }, prefix: true, default: :client
 
@@ -54,18 +54,18 @@ class User < ApplicationRecord
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if business_name = conditions.delete(:business_name)
-      where(conditions.to_h).where(["lower(business_name) = :value", { value: business_name.downcase }]).first
+      where(conditions.to_h).where([ "lower(business_name) = :value", { value: business_name.downcase } ]).first
     else
       where(conditions.to_h).first
     end
   end
 
   def role_admin?
-    role == 'admin'
+    role == "admin"
   end
 
   def role_client?
-    role == 'client'
+    role == "client"
   end
 
   def name
@@ -73,7 +73,7 @@ class User < ApplicationRecord
   end
 
   def name=(full_name)
-    parts = full_name.split(' ', 2)
+    parts = full_name.split(" ", 2)
     self.first_name = parts[0]
     self.last_name = parts[1] if parts.size > 1
   end

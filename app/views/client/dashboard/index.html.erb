@@ -1,0 +1,117 @@
+<div class="space-y-6">
+  <!-- Welcome Section -->
+  <div class="bg-white shadow rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Welcome, <%= @client.name %></h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">Manage your projects and requirements here.</p>
+    </div>
+  </div>
+
+  <!-- Project Stats -->
+  <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 truncate">Active Projects</dt>
+              <dd class="flex items-baseline">
+                <div class="text-2xl font-semibold text-gray-900"><%= @active_projects.count %></div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 truncate">Completed Projects</dt>
+              <dd class="flex items-baseline">
+                <div class="text-2xl font-semibold text-gray-900"><%= @completed_projects.count %></div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Active Projects -->
+  <div class="bg-white shadow rounded-lg">
+    <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Active Projects</h3>
+      <%= link_to "New Project", new_client_project_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    </div>
+    <div class="border-t border-gray-200">
+      <ul class="divide-y divide-gray-200">
+        <% @active_projects.each do |project| %>
+          <li class="px-4 py-4 sm:px-6">
+            <div class="flex items-center justify-between">
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-blue-600 truncate">
+                  <%= link_to project.title, client_project_path(project) %>
+                </p>
+                <p class="mt-1 text-sm text-gray-500">
+                  Due: <%= project.desired_completion_date.strftime("%B %d, %Y") %>
+                </p>
+              </div>
+              <div class="ml-4 flex-shrink-0">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                  Active
+                </span>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Project Requirements Form -->
+  <div class="bg-white shadow rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Add Project Requirements</h3>
+    </div>
+    <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+      <%= form_with(model: [:client, @project || Project.new], local: true, class: "space-y-6") do |f| %>
+        <div>
+          <%= f.label :title, "Project Title", class: "block text-sm font-medium text-gray-700" %>
+          <%= f.text_field :title, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" %>
+        </div>
+
+        <div>
+          <%= f.label :description, "Project Description", class: "block text-sm font-medium text-gray-700" %>
+          <%= f.text_area :description, rows: 4, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" %>
+        </div>
+
+        <div>
+          <%= f.label :desired_completion_date, "Desired Completion Date", class: "block text-sm font-medium text-gray-700" %>
+          <%= f.date_field :desired_completion_date, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" %>
+        </div>
+
+        <div>
+          <%= f.label :requirements_document, "Requirements Document", class: "block text-sm font-medium text-gray-700" %>
+          <%= f.file_field :requirements_document, class: "mt-1 block w-full" %>
+        </div>
+
+        <div class="flex justify-end">
+          <%= f.submit "Create Project", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div> 
